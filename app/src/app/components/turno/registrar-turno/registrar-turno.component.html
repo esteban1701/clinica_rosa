@@ -19,7 +19,7 @@
                 <div class="mt-4 d-flex justify-content-between text-center">
                     <div>
                         <button type="button" class="btn btn-danger" routerLink="">Cancelar</button>
-             
+
                     </div>
 
                     <div>
@@ -62,14 +62,14 @@
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                                 (click)="setId()">Cancelar</button>
                                </div>
-                               
+
                                 <div>
                                     <button [disabled]="form_profesional.invalid" type="button" class="btn btn-primary"
                                     (click)="modalFechas()">Aceptar</button>
 
                                 </div>
-                              
-                     
+
+
                     </div>
 
                 </form>
@@ -77,9 +77,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <!-- Modal Fechas-->
 <div class="modal fade" id="modalFechas" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -92,14 +89,19 @@
             </div>
             <div class="modal-body body-respon">
                 <div class="row">
-                    <div class="col-lg-6 body-respon">
+                    <div class="col-lg-6 body-respon" *ngIf="diasHorarioProfesional.length > 0">
                         <!-- Calendario -->
                         <ngb-datepicker #dp [minDate]="fechaMinima" [startDate]="fechaMinima"
                             [markDisabled]="markDisabled" (dateSelect)="seleccionarDia($event)"></ngb-datepicker>
                     </div>
+                    <span *ngIf="diasHorarioProfesional.length === 0">
+                      El profesional {{profesional.nombre}} {{profesional.apellido}} actualmente no tiene turnos disponibles.
+                    </span>
                     <div class="col-lg-6" *ngIf="mostrarHorarios">
                         <!-- Botones de horarios -->
                         <div class="d-flex flex-wrap justify-content-between">
+                          <!-- Mostrar no hay turnos disponibles si horariosDisponibles es [] -->
+                            <span *ngIf="horariosDisponibles.length === 0">No hay turnos disponibles</span>
                             <button *ngFor="let horario of horariosDisponibles" type="button"
                                 class="btn btn-outline-primary mt-2 custom-btn-size" (click)="modalTurno(horario)">{{
                                 horario
@@ -113,7 +115,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- ----------Modal confirmacion Turno----------------- -->
 <div class="modal fade" id="modalTurno" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -138,7 +139,7 @@
                 </ng-container>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-               
+
                     <div>
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                     </div>
@@ -146,12 +147,12 @@
                         <button type="button" class="btn btn-primary" (click)="createTurno()"
                             [disabled]="!profesional">Aceptar</button>
                     </div>
-               
+
             </div>
         </div>
     </div>
 
-  
+
 
 
 </div>

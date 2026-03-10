@@ -65,9 +65,7 @@ export class EditProfesionalComponent implements OnInit {
       miercoles: [false],
       jueves: [false],
       viernes: [false]
-
-
-    }, { validator: Validations.validateCheckboxs() })
+    })
 
   }
 
@@ -162,17 +160,17 @@ export class EditProfesionalComponent implements OnInit {
     };
 
     if (this.validaObrasSociales() && this.validaHorarios(horario)) {
-     
+
       this.updateProfesional = true;
 
     } else {
       //Validar si hay turnos pendientes
-    
+
       await this.validaTurnosPendientes();
       if (this.turnosPendientes) {
-      
+
         this.updateProfesional = true;
- 
+
 
       } else {
 
@@ -200,7 +198,7 @@ export class EditProfesionalComponent implements OnInit {
             obras_sociales: this.form.value.obrasSociales
 
           };
-       
+
           await firstValueFrom(this._usuarioService.updateProfesional(this.id_profesional, profesional));
           this.router.navigate(['/profesional']);
           this.toastr.success('Usuario modificado exitosamente', 'Usuario');
@@ -209,7 +207,7 @@ export class EditProfesionalComponent implements OnInit {
           console.error(error);
           this.toastr.error('Error al modificar usuario', 'Error');
         }
-      
+
 
 
 
@@ -345,10 +343,10 @@ export class EditProfesionalComponent implements OnInit {
 
 
       if (data) {
-     
+
 
         for (const item of data) {
-       
+
 
           const os: ObraSocial = await firstValueFrom(this._obraSocialService.getOne(item.id_obra_social));
 
@@ -359,7 +357,7 @@ export class EditProfesionalComponent implements OnInit {
           }
         }
 
-     
+
       } else {
         console.error("El servicio no devolvió datos.");
       }
@@ -387,7 +385,7 @@ export class EditProfesionalComponent implements OnInit {
 
     this.form.updateValueAndValidity();
 
-   
+
   }
 
 
