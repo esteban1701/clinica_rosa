@@ -205,17 +205,20 @@ export class EditProfesionalComponent implements OnInit {
 
         } catch (error) {
           console.error(error);
-          this.toastr.error('Error al modificar usuario', 'Error');
+          const err: any = error;
+          const msjError = err?.error?.error || err?.error?.msg || err?.message || '';
+
+          if (msjError.toLowerCase().includes('dni')) {
+            this.toastr.error('El dni ingresado ya se encuentra registrado.', 'Error');
+          } else if (msjError.toLowerCase().includes('matrícula')) {
+            this.toastr.error('La matricula ingresada ya se encuentra registrada.', 'Error');
+          } else if (msjError.toLowerCase().includes('email') || msjError.toLowerCase().includes('correo')) {
+            this.toastr.error('El email ingresado ya se encuentra registrado.', 'Error');
+          } else {
+            this.toastr.error('Error al generar nuevo Usuario', 'Error');
+          }
         }
-
-
-
-
     }
-
-
-
-
   }
 
   //Valida si hubo modificaciones en el horario (retorna true cuando no se modifico el horario y false cuando los horarios no son iguales)

@@ -1,16 +1,14 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
 <br><br><br>
 <div *ngIf="!loading" class="container">
-
-    <div class="title">
-       <h4 class="text-light">Profesionales</h4>
-       <input class="form-control bg-dark text-light mb-2" type="text" id="buscador" placeholder="Buscar profesional(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
-       <button type="button" class="btn btn-primary" routerLink="/profesional-add">Agregar</button>
-    </div>
-    
+  <div class="title">
+      <h4 class="text-light">Profesionales</h4>
+      <input class="form-control bg-dark text-light mb-2" type="text" id="buscador" placeholder="Buscar profesional(nombre, apellido, dni o email)..." [(ngModel)]="searchText">
+      <button type="button" class="btn btn-primary" routerLink="/profesional-add">Agregar</button>
+  </div>
 
   <div class="table-responsive">
-    <table *ngIf="listProfesionales.length>0" class="table table-hover">
+    <table *ngIf="listProfesionales.length > 0" class="table table-hover">
       <thead>
         <tr>
           <th scope="col">Nombre</th>
@@ -22,12 +20,9 @@
           <th scope="col">Horario</th>
           <th scope="col">Obras sociales</th>
           <th scope="col">Accion</th>
-         
         </tr>
       </thead>
       <tbody>
-     
-      
         <tr *ngFor="let item of listProfesionales | filter:searchText : ['nombre', 'apellido', 'dni', 'email']" class="table-dark">
           <td>{{item.nombre}}</td>
           <td>{{item.apellido}}</td>
@@ -37,34 +32,22 @@
           <td>{{item.especialidad}}</td>
           <td>
             <!-- <button type="button" class="btn btn-secondary btn-sm"  id="horario" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ver</button> -->
-            <button type="button" class="btn btn-secondary btn-sm"  id="horario" (click)="modalHorario(item.id!)">Ver</button>  
-    
+            <button type="button" class="btn btn-secondary btn-sm"  id="horario" (click)="modalHorario(item.id!)">Ver</button>
+
           </td>
           <td>
-              <button type="button" class="btn btn-secondary btn-sm" id="obraSocial" (click)="modalObraSocial(item.id!)" >Ver</button>  
+              <button type="button" class="btn btn-secondary btn-sm" id="obraSocial" (click)="modalObraSocial(item.id!)" >Ver</button>
           </td>
           <td>
-              
                   <button type="button" class="btn btn-secondary btn-sm me-2 btn-respon" routerLink="/profesional-edit/{{item.id}}">Editar</button>
-          
+
                   <button (click)="deleteProfesional(item.id!)" type="button" class="btn btn-danger btn-sm">Eliminar</button>
           </td>
-          
-         
         </tr>
-     
-    
-     
-     
-  
       </tbody>
     </table>
-
+    <h5 *ngIf="searchText && (listProfesionales | filter:searchText : ['nombre', 'apellido', 'dni', 'email']).length === 0" class="text-light text-center mt-3">No se encontraron profesionales</h5>
   </div>
- 
-
-
-
 
 <!-- Modal Horario-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -85,7 +68,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
- 
       </div>
     </div>
   </div>
@@ -101,18 +83,17 @@
       </div>
       <div class="modal-body">
         <p *ngFor="let item of listObrasSocialesProfesional">{{ item?.nombre }}</p>
-       
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
- 
+
       </div>
     </div>
   </div>
 </div>
 
-  <h5 *ngIf="listProfesionales.length==0">No hay Personal cargados en el sistema</h5>
-
+  <h5 *ngIf="listProfesionales.length == 0">No hay Personal cargados en el sistema</h5>
 </div>
 
 

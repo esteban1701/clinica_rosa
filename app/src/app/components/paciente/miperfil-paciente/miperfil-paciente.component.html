@@ -1,21 +1,21 @@
 <app-progress-bar *ngIf="loading"></app-progress-bar>
                 <form class="row g-3 mx-5 my-5" [formGroup]="form" (ngSubmit)="update()">
 
-                   
+
                         <div class="col-md-6" [class.has-danger]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
                             <label class="form-label label-text" for="nombre">Nombre</label>
                             <input formControlName="nombre" type="text" class="form-control bg-dark text-light fs-5" [class.is-invalid]="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched" placeholder="Ingrese nombre" id="nombre" maxlength="20">
                             <div class="invalid-feedback">El campo nombre es requerido</div>
                         </div>
-    
+
                         <div class="col-md-6">
                             <label class="form-label label-text" for="nombre">Apellido</label>
                             <input formControlName="apellido" type="text" class="form-control bg-dark text-light fs-5" [class.is-invalid]="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched" placeholder="Ingrese apellido" id="apellido" maxlength="20">
                             <div class="invalid-feedback">El campo apellido es requerido</div>
                         </div>
-                  
-                    
-                
+
+
+
 
                     <div class="col-12">
                         <label class="form-label label-text" for="dni">Dni</label>
@@ -26,9 +26,9 @@
                     <div class="col-12">
                         <label class="form-label label-text" for="telefono">Telefono</label>
                         <input formControlName="telefono" type="text" class="form-control bg-dark text-light fs-5" placeholder="Ingrese telefono" id="telefono" maxlength="15">
-                        
+
                     </div>
-                    
+
 
                     <div class="col-md-6">
                         <label class="form-label label-text" for="password">Contraseña</label>
@@ -36,7 +36,7 @@
                         <div class="invalid-feedback">El campo contraseña es requerido</div>
                     </div>
 
-                  
+
 
                     <div class="col-md-6">
                         <label class="form-label label-text" for="password_2">Repita Contraseña</label>
@@ -69,13 +69,9 @@
                         </div>
 
                         <div>
-                            <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
-
+                            <button type="submit" class="btn btn-primary">Aceptar</button>
                         </div>
-
-
                     </div>
-
                 </form>
 
 

@@ -17,12 +17,12 @@
 
 
         <button class="btn btn-primary bb boton-respon" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
-
     </div>
 
-
- 
 <div class="row">
+    <h3 style="color: white; margin: 10px 0;" *ngIf="listTurnos.length == 0">
+      No hay turnos en la fecha seleccionada.
+    </h3>
     <div class="col">
         <div class="grafico">
             <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
@@ -60,13 +60,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body text-center">
-        
+
           <ngb-datepicker (dateSelect)="seleccionarFechaDesde($event)"></ngb-datepicker>
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Aceptar</button>
-     
+
         </div>
       </div>
     </div>
@@ -80,15 +80,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body text-center">
-        
+
           <ngb-datepicker (dateSelect)="seleccionarFechaHasta($event)"></ngb-datepicker>
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Aceptar</button>
-        
+
         </div>
       </div>
     </div>
   </div>
-  

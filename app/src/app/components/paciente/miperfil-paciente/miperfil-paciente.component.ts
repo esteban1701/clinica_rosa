@@ -26,7 +26,7 @@ export class MiperfilPacienteComponent implements OnInit {
 
   id : number = 0;
 
- 
+
 
 
 
@@ -57,7 +57,7 @@ export class MiperfilPacienteComponent implements OnInit {
      this.form.get('obraSocial')?.valueChanges.subscribe((selectedObraSocialId) => {
       console.log('Ejecutando');
      if (selectedObraSocialId === '1') {
-      
+
        // Deshabilitar el control nroAfiliado y quitar la validación de requerido
        this.form.get('nroAfiliado')?.clearValidators();
        this.form.get('nroAfiliado')?.reset(); // Resetear el valor si es necesario
@@ -67,7 +67,7 @@ export class MiperfilPacienteComponent implements OnInit {
        this.form.get('nroAfiliado')?.enable();
        this.form.get('nroAfiliado')?.setValidators([Validators.required, Validators.maxLength(20)]);
      }
-   
+
      // Actualizar las validaciones
      this.form.get('nroAfiliado')?.updateValueAndValidity();
    });
@@ -91,7 +91,7 @@ export class MiperfilPacienteComponent implements OnInit {
     }
     try {
       const payload : any = await firstValueFrom(this._authService.verifyToken(token));
-       this.payload = payload; 
+       this.payload = payload;
       //Si la modificacion la esta realizando un admin
       if(payload.rol === 2){
            paciente = await firstValueFrom(this._userService.getOne(this.id));
@@ -135,11 +135,29 @@ export class MiperfilPacienteComponent implements OnInit {
       this.loading = false;
        this.toastr.error('Error al obtener obras sociales', 'Error');
     }
-   
+
   }
 
   async update() {
     let body: Partial<Usuario> = {};
+
+    if (this.form.invalid) {
+      // Camino 2.a: Las contraseñas no coinciden
+      if (this.form.hasError('passwordMismatch')) {
+        this.toastr.error('Las contraseñas no coinciden.', 'Error');
+      }
+      // Camino 2.b: Falta información en un campo
+      else {
+        this.toastr.error('Falta información en un campo.', 'Atención');
+      }
+
+      // Marcamos todos los campos como "tocados".
+      // Esto hará que el HTML muestre los textos en rojo debajo de cada input vacío.
+      this.form.markAllAsTouched();
+
+      // Cortamos la ejecución acá. Esto cumple con "Vuelve al paso 1" (se queda en el formulario)
+      return;
+    }
 
     //Si se modifico obra social debo validar que no tenga turnos con estado pendiente
     if(this.paciente?.id_obra_social !== this.form.value.obraSocial){
@@ -148,7 +166,7 @@ export class MiperfilPacienteComponent implements OnInit {
 
           if(turnos.length > 0){
              //No puede modificar obra social
-            
+
              this.toastr.error('No puede modificar la Obra Social teniendo turnos pendientes', 'Error');
              return;
           } else {
@@ -156,7 +174,7 @@ export class MiperfilPacienteComponent implements OnInit {
               ...body,
               id_obra_social: this.form.value.obraSocial
             };
-          } 
+          }
 
 
 
@@ -185,8 +203,8 @@ export class MiperfilPacienteComponent implements OnInit {
           ...body,
           password : this.form.value.password
         };
-    } 
-  
+    }
+
 
     try{
 
@@ -200,9 +218,9 @@ export class MiperfilPacienteComponent implements OnInit {
     }catch(error){
        this.toastr.error('Error al actualizar datos', 'Error');
     }
-    
 
-  
+
+
 }
 
   //Funcion para deshabilitar el input del html de Nro de afiliado cuando se selecciona Obra social Particular
