@@ -14,36 +14,31 @@
             style="max-width: 120px;">
 
         <button class="btn btn-primary boton-respon bb" (click)="buscar()" [disabled]="!fechaDesde || !fechaHasta">Buscar</button>
-
-    </div>
-    
-    
-
-
-    <div class="row">
-        <div class="col">
-            <div class="grafico">
-                <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
-
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="grafico">
-                <canvas id="barChart"></canvas>
-
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="grafico">
-                <canvas id="barChart3"></canvas>
-
-            </div>
-        </div>
-
     </div>
 
+    <div class="row" *ngIf="true">
+        <h3 style="color: white; margin: 10px 0;" *ngIf="listTurnos.length == 0">
+          No hay turnos en la fecha seleccionada.
+        </h3>
+
+        <div class="col">
+          <div class="grafico">
+              <canvas id="lineChart" style="width: 800px; height: 500px;"></canvas>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="grafico">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="grafico">
+            <canvas id="barChart3"></canvas>
+          </div>
+        </div>
+    </div>
 </div>
 
 
