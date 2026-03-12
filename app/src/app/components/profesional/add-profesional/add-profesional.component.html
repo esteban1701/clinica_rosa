@@ -135,6 +135,9 @@
   </div>
 
 </div>
+<div *ngIf="form.get('lunes')?.touched && !(form.value.lunes || form.value.martes || form.value.miercoles || form.value.jueves || form.value.viernes)" class="text-danger mt-2 text-center" style="font-size: 0.875em;">
+  Debe seleccionar al menos un día de atención.
+</div>
 
 <legend class="fw-bold text-light fs-5">Obras Sociales</legend>
 <fieldset class="form-group">
@@ -151,7 +154,9 @@
       <label class="text-light" [for]="'obraSocial_' + obraSocial.id">{{ obraSocial.nombre }}</label>
     </div>
   </div>
-
+  <div *ngIf="form.get('obrasSociales')?.touched && form.get('obrasSociales')?.value.length === 0" class="text-danger mt-2" style="font-size: 0.875em;">
+    Debe seleccionar al menos una obra social.
+  </div>
 </fieldset>
 
 

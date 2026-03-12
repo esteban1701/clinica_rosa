@@ -128,13 +128,32 @@ export class AddProfesionalComponent implements OnInit {
   }
 
   async create() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    this.loading = true;
-    console.log(this.form);
+   // 1. Verificamos si hay al menos un día en 'true'
+    const algunDiaSeleccionado = this.form.value.lunes || this.form.value.martes || this.form.value.miercoles || this.form.value.jueves || this.form.value.viernes;
+    
+    // 2. Verificamos si no hay obras sociales
+    const ningunaObraSocial = this.form.get('obrasSociales')?.value.length === 0;
 
+    // 3. Validamos TODO junto al hacer clic
+    if (this.form.invalid || ningunaObraSocial || !algunDiaSeleccionado) {
+      
+      if (ningunaObraSocial) {
+        this.form.get('obrasSociales')?.setErrors({ required: true });
+      }
+      
+      if (!algunDiaSeleccionado) {
+        // Le clavamos el error a un día para que Angular sepa que algo falló
+        this.form.get('lunes')?.setErrors({ required: true }); 
+      }
+
+      // Esto dispara todos los textos rojos en el HTML
+      this.form.markAllAsTouched();
+      return; // Cortamos acá, no viaja al backend
+    }
+
+    // ... acá sigue el try/catch y la creación del horario que ya tenés armado ...
+    this.loading = true;
+  
     const horario: Horario = {
       horaDesde: this.form.value.horaDesde,
       horaHasta: this.form.value.horaHasta,
