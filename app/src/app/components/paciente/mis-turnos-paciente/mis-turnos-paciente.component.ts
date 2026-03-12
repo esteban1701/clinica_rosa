@@ -172,14 +172,9 @@ export class MisTurnosPacienteComponent implements OnInit {
             }
          } else {
             this.loading = false;
-            this.toastr.error('No es posible cancelar el turno, comuniquese con la Clinica', 'Error');
-
+            this.toastr.error('No es posible cancelar el turno porque tiene menos de 48hs de anticipación, comuniquese con la Clinica', 'Error');
          }
       }
-
-
-
-
    }
 
    valida48hs(fechaTurno: Date): boolean {
