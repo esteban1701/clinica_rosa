@@ -40,7 +40,7 @@ export class SignInPacienteComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
       apellido: ['', [Validators.required, Validators.maxLength(20)]],
       dni: ['', [Validators.required, Validators.maxLength(10)]],
-      telefono: ['', Validators.maxLength(15)],
+      telefono: ['', Validators.required, Validators.maxLength(15)],
       email: ['', [Validators.required, Validations.emailFormat, Validators.maxLength(40)]],
       password: ['', [Validators.required, Validators.maxLength(16)]],
       password_2: ['', [Validators.required, Validators.maxLength(16)]],
@@ -106,8 +106,24 @@ export class SignInPacienteComponent implements OnInit {
   }
 
   async create() {
+if (this.form.invalid) {
+      
+      // Camino 2.a: Las contraseñas no coinciden
+      if (this.form.hasError('passwordMismatch')) {
+        this.toastr.error('Las contraseñas no coinciden.', 'Error');
+      } 
+      // Camino 2.b: Falta información en un campo
+      else {
+        this.toastr.error('Falta información en un campo.', 'Atención');
+      }
 
-
+      // Marcamos todos los campos como "tocados". 
+      // Esto hará que el HTML muestre los textos en rojo debajo de cada input vacío.
+      this.form.markAllAsTouched();
+      
+      // Cortamos la ejecución acá. Esto cumple con "Vuelve al paso 1" (se queda en el formulario)
+      return; 
+    }
     this.loading = true;
     const paciente: Usuario = {
       nombre: this.form.value.nombre,

@@ -24,14 +24,16 @@
   <input formControlName="dni" type="text" class="form-control bg-dark text-light"
       [class.is-invalid]="form.get('dni')?.hasError('required') && form.get('dni')?.touched"
       placeholder="Ingrese dni" id="dni" maxlength="10">
-  <div class="invalid-feedback">El campo dni es requerido</div>
+  <div *ngIf="form.get('dni')?.hasError('required') && form.get('dni')?.touched" class="invalid-feedback">El campo dni es requerido</div>
+  <div *ngIf="form.get('dni')?.hasError('dniRegistrado')" class="invalid-feedback">El dni ingresado ya se encuentra registrado.</div>
 </div>
 
 <div class="col-md-6">
   <label class="form-label label-text text-light" for="telefono">Telefono</label>
   <input formControlName="telefono" type="text" class="form-control bg-dark text-light"
+    [class.is-invalid]="form.get('telefono')?.hasError('required') && form.get('telefono')?.touched"
       placeholder="Ingrese telefono" id="telefono" maxlength="15">
-
+    <div class="invalid-feedback">El campo teléfono es requerido</div>
 </div>
 
 <div class="col-md-6">
@@ -41,6 +43,7 @@
       placeholder="Ingrese Email" id="email" maxlength="40">
       <div *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched" class="invalid-feedback">El campo email es requerido</div>
       <div *ngIf="form.get('email')?.hasError('invalidEmail')" class="invalid-feedback">El formato del email no es válido</div>
+      <div *ngIf="form.get('email')?.hasError('emailRegistrado')" class="invalid-feedback">El email ingresado ya se encuentra registrado</div>
 </div>
 
 <div class="col-md-12">
@@ -73,6 +76,7 @@
 <div class="col-md-6">
   <label class="form-label label-text text-light" for="dni">Seleccione Especialidad</label>
   <select formControlName="id_especialidad" class="form-select bg-dark text-light" [class.is-invalid]="form.get('id_especialidad')?.hasError('required') && form.get('id_especialidad')?.touched" id="id_especialidad">
+    <option value="" disabled selected>Seleccione...</option>
     <option *ngFor="let especialidad of listEspecialidad" [value]="especialidad.id" class="text-light">{{especialidad.nombre}}</option>
  </select>
   <div class="invalid-feedback">El campo especialidad es requerido</div>
@@ -83,7 +87,8 @@
   <input formControlName="matricula" type="text" class="form-control bg-dark text-light"
       [class.is-invalid]="form.get('matricula')?.hasError('required') && form.get('matricula')?.touched"
       placeholder="Ingrese matricula" id="matricula" maxlength="10">
-  <div class="invalid-feedback">El campo matricula es requerido</div>
+  <div *ngIf="form.get('matricula')?.hasError('required') && form.get('matricula')?.touched" class="invalid-feedback">El campo matricula es requerido</div>
+  <div *ngIf="form.get('matricula')?.hasError('matriculaRegistrada')" class="invalid-feedback">La matricula ingresada ya se encuentra registrada.</div>
 </div>
 
 <legend class="fw-bold text-light fs-5">Horario</legend>
@@ -147,7 +152,6 @@
     </div>
   </div>
 
-
 </fieldset>
 
 
@@ -158,7 +162,7 @@
   </div>
 
   <div>
-      <button [disabled]="form.invalid"  type="submit" class="btn btn-primary">Aceptar</button>
+      <button  type="submit" class="btn btn-primary">Aceptar</button>
 
   </div>
 

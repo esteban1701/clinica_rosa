@@ -42,7 +42,7 @@ export class AddProfesionalComponent implements OnInit {
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
       apellido: ['', [Validators.required, Validators.maxLength(20)]],
       dni: ['', [Validators.required, Validators.maxLength(10)]],
-      telefono: ['', Validators.maxLength(15)],
+      telefono: ['',Validators.required, Validators.maxLength(15)],
       email: ['', [Validators.required,Validations.emailFormat, Validators.maxLength(40)]],
       password: ['', [Validators.required, Validators.maxLength(16)]],
       password_2: ['', [Validators.required, Validators.maxLength(16)]],
@@ -128,6 +128,10 @@ export class AddProfesionalComponent implements OnInit {
   }
 
   async create() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     this.loading = true;
     console.log(this.form);
 
@@ -164,8 +168,27 @@ export class AddProfesionalComponent implements OnInit {
 
 
     } catch (error) {
+      this.loading = false;
       console.error(error);
-      this.toastr.error('Error al generar nuevo Usuario', 'Error');
+      const err: any = error;
+      console.log(err)
+      // Capturamos el error del backend
+      const msjError = err?.error?.error || err?.error?.msg || err?.message || '';
+
+      // Caminos alternativos
+      if (msjError.toLowerCase().includes('dni')) {
+        this.form.get('dni')?.setErrors({ dniRegistrado: true });
+        this.toastr.error('El dni ingresado ya se encuentra registrado.', 'Error');
+      } else if (msjError.toLowerCase().includes('matrícula')) {
+        this.form.get('matrícula')?.setErrors({ matriculaRegistrada: true });
+        this.toastr.error('La matricula ingresada ya se encuentra registrada.', 'Error');
+      } else if (msjError.toLowerCase().includes('email') || msjError.toLowerCase().includes('correo')) {
+        this.form.get('email')?.setErrors({ emailRegistrado: true });
+        this.toastr.error('El email ingresado ya se encuentra registrado.', 'Error');
+      } else {
+        this.toastr.error('Error al generar nuevo Usuario', 'Error');
+      }
+      // Sin router.navigate para que se quede en el Paso 1
     }
     //Vieja funcion-----------------------------------------------
     //  this.addHorario(horario).subscribe( (data : Horario)=>{

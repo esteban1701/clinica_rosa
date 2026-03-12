@@ -31,8 +31,9 @@
                     <div class="col-md-6">
                         <label class="form-label label-text" for="telefono">Telefono</label>
                         <input formControlName="telefono" type="text" class="form-control bg-dark text-light"
+                         [class.is-invalid]="form.get('telefono')?.hasError('required') && form.get('telefono')?.touched"
                             placeholder="Ingrese telefono" id="telefono" maxlength="15">
-
+                        <div class="invalid-feedback">El campo teléfono es requerido</div>
                     </div>
 
 
@@ -130,7 +131,7 @@
                         </div>
 
                         <div>
-                            <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Aceptar</button>
+                            <button type="submit" class="btn btn-primary">Aceptar</button>
                            
                      
 
