@@ -7,33 +7,32 @@
                <p class="card-text text-light fs-5">Turno nro: {{turno?.id}}</p>
                <p class="card-text text-light fs-5">Paciente: {{turno?.paciente?.nombre}}, {{turno?.paciente?.apellido}}</p>
                <p *ngIf="admin" class="card-text text-light fs-5">Profesional: {{turno?.profesional?.nombre}}, {{turno?.profesional?.apellido}}</p>
-               
+
                <div class="input-group mb-3">
-                  
+
                        <label class="form-group text-light fs-5" for="">Estado:</label>
-               
-                 
+
+
                        <select formControlName="estado" class="form-select w-auto text-light bg-dark">
                            <option class="text-light" *ngFor="let estado of estados" [value]="estado">{{estado}}</option>
                        </select>
-                  
+
                </div>
-               
+
                <p class="card-text text-light fs-5">Fecha: {{turno?.fechaLocal}}</p>
                <p class="card-text text-light fs-5">Hora: {{turno?.hora}}</p>
-               
+
                <div class="box-observaciones">
-                   <textarea class="form-control bg-dark text-light" formControlName="observaciones" cols="30" rows="10" [attr.disabled]="!observacionValida"></textarea>
+                   <textarea class="form-control bg-dark text-light" formControlName="observaciones" cols="30" rows="10" *ngIf="observacionValida"></textarea>
+
+                    <p class="card-text text-light fs-5" *ngIf="!observacionValida">Observaciones: {{turno?.observaciones}}</p>
+                   <p class="card-text text-info mb-3" *ngIf="!observacionValida">{{mensajeObservacion}}</p>
                </div>
                <div class="card-footer d-flex justify-content-between">
                 <button class="btn btn-danger fs-5" (click)="cerrar()">Cancelar</button>
                 <button class="btn btn-primary fs-5" type="submit">Aceptar</button>
-            </div>
-
-
+               </div>
            </form>
        </div>
-       
-     
    </div>
 </div>
