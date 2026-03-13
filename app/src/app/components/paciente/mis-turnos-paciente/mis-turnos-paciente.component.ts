@@ -62,7 +62,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    async ngOnInit(): Promise<void> {
       await this.getPaciente();
       await this.getTurnos();
-    
+
    }
 
    async getPaciente() {
@@ -153,7 +153,7 @@ export class MisTurnosPacienteComponent implements OnInit {
          const turno: Turno = this.listTurnos.find((turno) => idTurno === turno.id)!;
 
          const fechaTurnoDate = new Date(`${turno.fecha}T${turno.hora}`);
-   
+
          if (this.valida48hs(fechaTurnoDate)) {
             this.loading = true;
             try {
@@ -172,14 +172,9 @@ export class MisTurnosPacienteComponent implements OnInit {
             }
          } else {
             this.loading = false;
-            this.toastr.error('No es posible cancelar el turno, comuniquese con la Clinica', 'Error');
-   
+            this.toastr.error('No es posible cancelar el turno porque tiene menos de 48hs de anticipación, comuniquese con la Clinica', 'Error');
          }
       }
-
-
-
-
    }
 
    valida48hs(fechaTurno: Date): boolean {
@@ -198,7 +193,7 @@ export class MisTurnosPacienteComponent implements OnInit {
    //Reprogramar turno ------------------------------------
 
    async reprogramarTurno(idTurno: number) {
-     
+
       this.deshabilitarFechas();
       const turno: Turno = this.listTurnos.find((turno) => idTurno === turno.id)!;
 
@@ -211,10 +206,8 @@ export class MisTurnosPacienteComponent implements OnInit {
          await this.getHorarioProfesional();
 
          this.modalFechas();
-
-
       } else {
-         this.toastr.error('No es posible reprogramar el turno, comuniquese con la Clinica');
+         this.toastr.error('No es posible reprogramar el turno porque tiene menos de 48hs de anticipación, comuniquese con la Clinica');
       }
 
    }
@@ -273,7 +266,7 @@ export class MisTurnosPacienteComponent implements OnInit {
          day: currentDate.getDate() + 1
       };
 
-     
+
    }
 
 
@@ -296,7 +289,7 @@ export class MisTurnosPacienteComponent implements OnInit {
       // Formatear la fecha como 'yyyy-mm-dd'
       // Formatear la fecha como 'yyyy-mm-dd'
       const fechaFormateada: string = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-     
+
 
       // Asignar solo como cadena
       this.fechaTurnoString = this.sharedFunctions.formatoFechaString(this.fechaTurnoDate);
@@ -309,7 +302,7 @@ export class MisTurnosPacienteComponent implements OnInit {
       const diasSemana: string[] = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
       const nombreDia: string = diasSemana[diaDeLaSemana];
       const diasHorarioProfesional = [];
-     
+
       if (this.horarioProfesional?.lunes) {
          diasHorarioProfesional.push('lunes')
       };
@@ -335,7 +328,7 @@ export class MisTurnosPacienteComponent implements OnInit {
       }
 
    }
- 
+
 
    //Devuelve los turnos del profesional seleccionado en el dia seleccionado
    async getHorariosOcupados(fecha: string): Promise<Turno[]> {
@@ -423,7 +416,7 @@ export class MisTurnosPacienteComponent implements OnInit {
 
          return horaFormateada;
       } else {
-        
+
          return 'Horario no disponible';
       }
    }
@@ -431,8 +424,8 @@ export class MisTurnosPacienteComponent implements OnInit {
 
 
    async modalTurno(horario: string) {
-    
-    
+
+
 
       await this.getEspecialidad();
 
@@ -440,8 +433,8 @@ export class MisTurnosPacienteComponent implements OnInit {
       // convetir el string de hora a un objeto Time
       const [horas, minutos] = horario.split(':');
       this.horaTurno = { hours: parseInt(horas, 10), minutes: parseInt(minutos, 10) };
-    
-    
+
+
       const modalElement = document.getElementById('modalTurno');
       if (modalElement) {
          this.modalMConfirmacion = new Modal(modalElement);
@@ -461,7 +454,7 @@ export class MisTurnosPacienteComponent implements OnInit {
 
    async createTurno() {
       this.loading = true;
-   
+
       const fecha = this.sharedFunctions.formatoFechaDB(this.fechaTurnoDate);
       const hora = this.formatTime(this.horaTurno!);
 
@@ -473,41 +466,41 @@ export class MisTurnosPacienteComponent implements OnInit {
             observaciones: '',
             id_profesional: this.profesional!.id!,
             id_paciente: this.paciente?.id!
-   
+
          };
-   
+
          try {
             await firstValueFrom(this._turnoService.create(turno));
-   
+
             const body: any = {
                estado: 'Cancelado'
             };
-   
+
             await firstValueFrom(this._turnoService.update(body, this.turno!.id!));
-   
+
             await this.getTurnos();
-   
+
             this.cerrarModales();
-   
-          
+
+
             this.loading = false;
             this.router.navigate(['mis-turnos']);
-   
+
             // this.loading = false;
-   
+
             this.toastr.success('Turno reprogramado exitosamente', 'Turno Generado');
-   
+
          } catch (error: any) {
             this.loading = false;
             this.errorServer = error.error?.error || 'Error al generar Turno',
                this.toastr.error(this.errorServer!, 'Error');
             console.error(error);
-         }        
+         }
       } else {
          this.loading = false;
          this.toastr.error('No es posible registrar mas de un turno en la misma fecha y hora', 'Error');
       }
-     
+
 
    }
 
@@ -521,15 +514,15 @@ export class MisTurnosPacienteComponent implements OnInit {
           const turno = await firstValueFrom(this._turnoService.getTurnoByPacFechaHora(body, this.paciente?.id!));
           console.log('Turno: ', turno);
           if(turno.length > 0){
-           
+
              return false;
           } else {return true;}
         }catch(error : any){
             console.error(error);
             return false;
         }
-        
-    
+
+
  }
 
    formatTime(time: Time): string {

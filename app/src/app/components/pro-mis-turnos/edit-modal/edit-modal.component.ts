@@ -27,19 +27,16 @@ export class EditModalComponent implements OnInit {
     estados: string[] = ['Pendiente', 'Concretado', 'Ausente', 'Cancelado'];
 
     observacionValida: boolean = true;
+    mensajeObservacion: string | null = null;
     estadoValido: boolean = true;
 
     payload: any;
     admin: boolean = true;
     loading : boolean = false;
 
-
- 
-
     @Output() cerrarModal = new EventEmitter<void>();
 
     @Input() idTurno: number = 0;
-
 
     constructor(private fb: FormBuilder,
         private _turnoService: TurnoService,
@@ -54,7 +51,6 @@ export class EditModalComponent implements OnInit {
             estado: [],
             observaciones: [{ value: '', disabled: !this.observacionValida }]
         })
-
     }
 
     async ngOnInit(): Promise<void> {
@@ -198,12 +194,8 @@ export class EditModalComponent implements OnInit {
 
         if (difHoras > 48) {
             this.observacionValida = false;
+            this.mensajeObservacion = 'Han pasado más de 48hs desde que se realizó el turno, no es posible editar las observaciones.'
         }
 
     }
-
-   
-
-
-
 }
