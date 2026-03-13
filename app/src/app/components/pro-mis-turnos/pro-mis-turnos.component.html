@@ -20,6 +20,9 @@
 
 
    <div class="container">
+    <div *ngIf="listTurno.length === 0 && !loading && !fechaDesde" class="text-center mt-5">
+      <h4 class="text-light">El profesional no tiene turnos asignados.</h4>
+      </div>
       <div class="row">
          <div class="col-12 col-md-6 col-lg-4 mt-5" *ngFor="let turno of listTurno">
             <div class="card bg-dark">

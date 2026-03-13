@@ -48,8 +48,8 @@ export class ProMisTurnosComponent implements OnInit {
    }
    async ngOnInit(): Promise<void> {
       await this.getId();
-      await this.getTurnosToday();
-   
+      // await this.getTurnosToday();
+      await this.getAllTurnos();
 
    }
 
